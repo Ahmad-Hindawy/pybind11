@@ -156,7 +156,8 @@ list(GET _PYTHON_VALUES 9 PYTHON_MULTIARCH)
 
 # Make sure the Python has the same pointer-size as the chosen compiler
 # Skip if CMAKE_SIZEOF_VOID_P is not defined
-if(CMAKE_SIZEOF_VOID_P AND (NOT "${PYTHON_SIZEOF_VOID_P}" STREQUAL "${CMAKE_SIZEOF_VOID_P}"))
+# Skip if cross compiling as it normal to compile to a 32-bit target on a 64-bit host
+if((NOT CMAKE_CROSSCOMPILING) AND CMAKE_SIZEOF_VOID_P AND (NOT "${PYTHON_SIZEOF_VOID_P}" STREQUAL "${CMAKE_SIZEOF_VOID_P}"))
   if(PythonLibsNew_FIND_REQUIRED)
     math(EXPR _PYTHON_BITS "${PYTHON_SIZEOF_VOID_P} * 8")
     math(EXPR _CMAKE_BITS "${CMAKE_SIZEOF_VOID_P} * 8")
